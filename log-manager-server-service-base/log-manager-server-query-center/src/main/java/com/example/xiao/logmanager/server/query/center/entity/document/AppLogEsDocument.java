@@ -1,6 +1,9 @@
 package com.example.xiao.logmanager.server.query.center.entity.document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * com.example.xiao.logmanager.server.query.center.entity.document
@@ -11,5 +14,14 @@ import lombok.Data;
  */
 @Data
 public class AppLogEsDocument {
-
+    private String appName;
+    private String groupName;
+    private LocalDateTime time;
+    private String level;
+    private String message;
+    private String traceId;
+    private String thread;
+    private String logger;
+    @JsonIgnore
+    private String messageHighlight;
 }

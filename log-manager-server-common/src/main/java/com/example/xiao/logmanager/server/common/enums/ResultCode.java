@@ -1,40 +1,22 @@
 package com.example.xiao.logmanager.server.common.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-/**
- * com.atguigu.commonutils
- *
- * @author xzwnp
- * 2022/1/26
- * 21:52
- * Steps：
- */
+@RequiredArgsConstructor
+@Getter
 public enum ResultCode {
-    //    Integer SUCCESS = 20000;
-//    Integer ERROR = 20001;
-//    //支付中
-//    Integer PAYING = 25000;
-    SUCCESS(20000), ERROR(20001), INPUT_ERROR(20002),
-    PATH_NOT_EXIST(20005),
-    TOKEN_ERROR(28003),
-    NO_PERMISSION(28004),
+    SUCCESS(0, "成功"),
+    ERROR(1001, "系统异常"),
+    BIZ_EXCEPTION(1002, "业务逻辑错误"),
+    DATA_NOT_EXIST(1003, "数据不存在"),
+    DATA_ALREADY_EXIST(1004, "数据已存在"),
+    PARAM_ERROR(2001, "请求参数错误"),
+    UN_AUTH(3001, "Token无效"),
+    NO_PERMISSION(3002, "无权限"),
+    PATH_NOT_EXIST(4001, "请求路径不存在"),
     ;
-    private Integer code;
+    private final Integer code;
+    private final String message;
 
-    private ResultCode(Integer code) {
-        this.code = code;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    @Override
-    public String toString() {
-        return code.toString();
-    }
 }

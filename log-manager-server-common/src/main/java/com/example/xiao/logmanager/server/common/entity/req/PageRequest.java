@@ -11,6 +11,6 @@ import lombok.Data;
  */
 @Data
 public class PageRequest {
-	protected Long current;
-	protected Long size;
+	protected Long current = 1L;
+	protected Long size = 10L;
 }
