@@ -1,0 +1,9 @@
+server:
+  port: 8011
+spring:
+  application:
+    name: log-manager-db-collector
+  elasticsearch:
+    uris: http://demo.ynu.icu:9200
+    username: elastic
+    password: elastic

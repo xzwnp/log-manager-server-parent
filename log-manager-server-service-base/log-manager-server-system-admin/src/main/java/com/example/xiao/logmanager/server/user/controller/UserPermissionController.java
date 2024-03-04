@@ -3,20 +3,17 @@ package com.example.xiao.logmanager.server.user.controller;
 import com.example.xiao.log.annotation.LogRecordTrace;
 import com.example.xiao.logmanager.server.common.entity.resp.R;
 import com.example.xiao.logmanager.server.common.enums.RoleEnum;
-import com.example.xiao.logmanager.server.common.exception.BizException;
 import com.example.xiao.logmanager.server.common.exception.NoPermissionException;
-import com.example.xiao.logmanager.server.user.entity.req.ValidatePermissionReq;
+import com.example.xiao.logmanager.api.req.ValidatePermissionReq;
 import com.example.xiao.logmanager.server.user.service.biz.UserPermissionService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.Validate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("rpc/sys/user")
 @LogRecordTrace
 @RequiredArgsConstructor
 public class UserPermissionController {

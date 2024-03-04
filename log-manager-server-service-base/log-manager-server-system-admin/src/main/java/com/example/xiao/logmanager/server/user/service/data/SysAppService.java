@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysAppService extends IService<SysAppPo> {
 
+    SysAppPo getByAppName(String appName);
 }

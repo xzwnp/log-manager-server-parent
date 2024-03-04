@@ -3,8 +3,12 @@ server:
 spring:
   application:
     name: log-manager-query-center
+  elasticsearch:
+    uris: http://demo.ynu.icu:9200
+    username: elastic
+    password: elastic
   datasource:
-    url: jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true
+    url: jdbc:mysql://localhost:3306/log_manager_server_user?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true
     username: root
     password: M.asd123.ysql
   cloud:
@@ -21,8 +25,15 @@ log-record:
     time-unit: seconds
     rejectedExecutionHandler: java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy
   persistence:
+    file:
+      enable: true
+      dir: D:\export\logs\logmanager
     logstash:
       enable: true
       host: demo.ynu.icu
       operate-log-port: 4560
       app-log-port: 4561
+
+logging:
+  level:
+    com.example.xiao.logmanager.api.feign: debug

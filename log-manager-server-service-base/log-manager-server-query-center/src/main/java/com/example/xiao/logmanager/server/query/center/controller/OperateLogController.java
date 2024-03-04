@@ -33,12 +33,6 @@ import java.util.Set;
 public class OperateLogController {
     private final OperateLogService operateLogService;
 
-    @GetMapping("list-apps")
-    @LogRecord(operate = "listApps", content = "'查询可用App'")
-    public R<Map<String, Set<String>>> listApps() {
-        return R.success(operateLogService.listOperateLogs());
-    }
-
     @GetMapping("search-logs")
     public R<PageDto<SearchOperateLogResp>> searchOperateLogs(SearchOperateLogReq req) {
         log.info("searchOperateLogs,参数:{}", JsonUtil.toJson(req));

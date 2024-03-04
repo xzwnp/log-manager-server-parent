@@ -72,5 +72,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
         </dependency>
+
     </dependencies>
 </project>

@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.example.xiao</groupId>
-            <artifactId>log-manager-server-common</artifactId>
+            <artifactId>log-manager-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

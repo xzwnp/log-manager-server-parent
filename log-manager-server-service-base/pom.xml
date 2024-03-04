@@ -22,7 +22,12 @@
     <dependencies>
         <dependency>
             <groupId>com.example.xiao</groupId>
-            <artifactId>log-manager-server-common</artifactId>
+            <artifactId>log-manager-common-server-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.example.xiao</groupId>
+            <artifactId>log-manager-client-common-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

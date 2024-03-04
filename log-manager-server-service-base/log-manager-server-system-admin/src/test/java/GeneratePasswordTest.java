@@ -14,4 +14,8 @@ public class GeneratePasswordTest {
         System.out.println(MD5Util.hashWithSalt("admin123"));
     }
 
+    public static void main(String[] args) {
+        boolean b = JwtUtil.checkToken("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqd3QtZGVtbyIsImlhdCI6MTcwOTUzMDk3NSwiZXhwIjoxNzA5NTM0NTc1fQ.VjabceurHZRnfhxy7HjcHKhuHw6e85PrNj17VnUalbo");
+        System.out.println(b);
+    }
 }

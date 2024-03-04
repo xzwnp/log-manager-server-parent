@@ -28,7 +28,7 @@ public class AppLogService {
     private final EsIndexDao esIndexDao;
     private final AppLogConverter appLogConverter;
 
-    public Map<String, Set<String>> listAppLogs() {
+    public Map<String, Set<String>> export() {
         List<String> indices = esIndexDao.listIndices(LOG_TYPE + "*");
         Map<String, Set<String>> appGroupMap = new HashMap<>();
         // 处理返回的索引信息

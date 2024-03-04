@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Getter;
@@ -25,7 +26,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_app")
+@TableName(value = "sys_app",autoResultMap = true)
 public class SysAppPo {
 
     /**
@@ -49,7 +50,7 @@ public class SysAppPo {
      * 应用分组
      */
     @TableField(value = "`groups`",typeHandler = JacksonTypeHandler.class)
-    private List<String> groups;
+    private Set<String> groups;
 
     /**
      * 创建时间

@@ -19,6 +19,9 @@ public class UserPermissionService {
 
     public void validateRole(RoleEnum requiredRole) {
         JwtEntity userInfo = UserThreadLocalUtil.getUserInfo();
+        if (userInfo == null) {
+            throw new BizException(ResultCode.UN_AUTH, "用户未登录");
+        }
         List<String> roles = userInfo.getRoles();
         if (!roles.contains(requiredRole.getName())) {
             throw new NoPermissionException("无权限,需要角色" + requiredRole.getName());

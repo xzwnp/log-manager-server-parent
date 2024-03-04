@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author xiaozhiwei
@@ -16,4 +16,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysAppServiceImpl extends ServiceImpl<SysAppDao, SysAppPo> implements SysAppService {
+    @Override
+    public SysAppPo getByAppName(String appName) {
+        return this.lambdaQuery().eq(SysAppPo::getAppName, appName)
+                .one();
+    }
 }

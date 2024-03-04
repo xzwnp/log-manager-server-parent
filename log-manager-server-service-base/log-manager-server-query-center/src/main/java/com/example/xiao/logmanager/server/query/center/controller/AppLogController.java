@@ -2,6 +2,7 @@ package com.example.xiao.logmanager.server.query.center.controller;
 
 import com.example.xiao.log.annotation.LogRecord;
 import com.example.xiao.log.annotation.LogRecordTrace;
+import com.example.xiao.logmanager.api.feign.SystemAdminFeignClient;
 import com.example.xiao.logmanager.server.common.entity.resp.R;
 import com.example.xiao.logmanager.server.common.entity.resp.PageDto;
 import com.example.xiao.logmanager.server.common.util.JsonUtil;
@@ -33,12 +34,6 @@ import java.util.Set;
 @Slf4j
 public class AppLogController {
     private final AppLogService appLogService;
-
-    @GetMapping("list-apps")
-    @LogRecord(operate = "listApps", content = "'查询可用App'")
-    public R<Map<String, Set<String>>> listApps() {
-        return R.success(appLogService.listAppLogs());
-    }
 
     @GetMapping("search-logs")
     @LogRecord(operate = "searchAppLogs", content = "'查询'+#req.appName+'应用日志,参数:'+#req", recordReturnValue = false)
