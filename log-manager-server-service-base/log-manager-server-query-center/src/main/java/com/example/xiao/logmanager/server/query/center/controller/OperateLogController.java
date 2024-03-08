@@ -10,6 +10,7 @@ import com.example.xiao.logmanager.server.query.center.entity.resp.SearchOperate
 import com.example.xiao.logmanager.server.query.center.service.OperateLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,7 @@ public class OperateLogController {
     private final OperateLogService operateLogService;
 
     @GetMapping("search-logs")
-    public R<PageDto<SearchOperateLogResp>> searchOperateLogs(SearchOperateLogReq req) {
+    public R<PageDto<SearchOperateLogResp>> searchOperateLogs(@Validated SearchOperateLogReq req) {
         log.info("searchOperateLogs,参数:{}", JsonUtil.toJson(req));
         //给时间设置默认值
         if (req.getEndTime() == null) {

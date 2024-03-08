@@ -7,3 +7,9 @@ spring:
     uris: http://demo.ynu.icu:9200
     username: elastic
     password: elastic
+log-manager:
+  db-collector:
+    routers:
+      - database: log_manager_server_user
+        app-name: log-manager-system-admin
+        group: dev

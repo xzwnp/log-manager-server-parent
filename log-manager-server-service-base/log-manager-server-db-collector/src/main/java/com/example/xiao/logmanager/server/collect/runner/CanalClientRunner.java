@@ -5,14 +5,21 @@ import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.Message;
 import com.example.xiao.logmanager.server.collect.config.DbCollectorProperties;
+import com.example.xiao.logmanager.server.collect.dao.DbLogEsDao;
+import com.example.xiao.logmanager.server.collect.entity.document.DbLogEsDocument;
+import com.example.xiao.logmanager.server.collect.enums.RowChangeType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 订阅canal服务端发送的数据库变更日志,获取数据变更详情
@@ -20,8 +27,12 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CanalClientRunner implements CommandLineRunner {
+public class CanalClientRunner implements CommandLineRunner, InitializingBean {
     private final DbCollectorProperties properties;
+
+    private static final Map<String, Pair<String, String>> dbAppMap = new HashMap<>();
+
+    private final DbLogEsDao dbLogEsDao;
 
     @Override
     public void run(String... args) throws Exception {
@@ -63,7 +74,7 @@ public class CanalClientRunner implements CommandLineRunner {
         }
     }
 
-    private static void handleEntry(List<CanalEntry.Entry> entries) {
+    private void handleEntry(List<CanalEntry.Entry> entries) {
         for (CanalEntry.Entry entry : entries) {
             if (entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONBEGIN || entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONEND) {
                 continue;
@@ -78,29 +89,62 @@ public class CanalClientRunner implements CommandLineRunner {
             }
 
             CanalEntry.EventType eventType = rowChage.getEventType();
-            System.out.println(String.format("================> binlog[%s:%s] , name[%s,%s] , eventType : %s",
-                    entry.getHeader().getLogfileName(), entry.getHeader().getLogfileOffset(),
-                    entry.getHeader().getSchemaName(), entry.getHeader().getTableName(),
-                    eventType));
+            String databaseName = entry.getHeader().getSchemaName();
+            String tableName = entry.getHeader().getTableName();
+            log.info("================> binlog of table[{}:{}],eventType : {}", databaseName, tableName, eventType);
 
             for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
+                //仅开发阶段,打印数据变更情况
                 if (eventType == CanalEntry.EventType.DELETE) {
                     printColumn(rowData.getBeforeColumnsList());
                 } else if (eventType == CanalEntry.EventType.INSERT) {
                     printColumn(rowData.getAfterColumnsList());
                 } else {
-                    System.out.println("-------> before");
+                    log.info("-------> before");
                     printColumn(rowData.getBeforeColumnsList());
-                    System.out.println("-------> after");
+                    log.info("-------> after");
                     printColumn(rowData.getAfterColumnsList());
                 }
+
+                //保存到es
+                Pair<String, String> appGroupPair = dbAppMap.get(databaseName);
+                if (appGroupPair == null) {
+                    log.warn("database [{}] does not have appName and group configured", databaseName);
+                    continue;
+                }
+                Map<String, String> oldColumns = rowData.getBeforeColumnsList().stream().collect(Collectors.toMap(CanalEntry.Column::getName, CanalEntry.Column::getValue));
+                Map<String, String> newColumns = rowData.getAfterColumnsList().stream().collect(Collectors.toMap(CanalEntry.Column::getName, CanalEntry.Column::getValue));
+                Map<String, List<String>> diffColumns = rowData.getAfterColumnsList().stream().filter(CanalEntry.Column::getUpdated).collect(Collectors.toMap(CanalEntry.Column::getName, col -> Arrays.asList(oldColumns.get(col.getName()), col.getValue())));
+                DbLogEsDocument dbLogEsDocument = DbLogEsDocument.builder()
+                        .appName(appGroupPair.getLeft())
+                        .group(appGroupPair.getRight())
+                        .database(databaseName)
+                        .table(tableName)
+                        .time(LocalDateTime.now())
+                        .changeType(RowChangeType.of(eventType.getNumber()))
+                        .oldColumns(oldColumns)
+                        .newColumns(newColumns)
+                        .diffColumns(diffColumns)
+                        .timestamp(new Date())
+                        .version(1)
+                        .build();
+                dbLogEsDao.save(dbLogEsDocument);
             }
+
+
         }
     }
 
-    private static void printColumn(List<CanalEntry.Column> columns) {
+    private void printColumn(List<CanalEntry.Column> columns) {
         for (CanalEntry.Column column : columns) {
-            System.out.println(column.getName() + " : " + column.getValue() + "    update=" + column.getUpdated());
+            log.info(column.getName() + " : " + column.getValue() + "    modified:" + column.getUpdated());
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        for (DbCollectorProperties.DataBaseConfig router : properties.getRouters()) {
+            dbAppMap.put(router.getDatabase(), Pair.of(router.getAppName(), router.getGroup()));
         }
     }
 }
