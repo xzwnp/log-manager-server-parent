@@ -95,17 +95,18 @@ public class CanalClientRunner implements CommandLineRunner, InitializingBean {
 
             for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
                 //仅开发阶段,打印数据变更情况
+                StringBuilder sb = new StringBuilder();
                 if (eventType == CanalEntry.EventType.DELETE) {
-                    printColumn(rowData.getBeforeColumnsList());
+                    printColumn(sb, rowData.getBeforeColumnsList());
                 } else if (eventType == CanalEntry.EventType.INSERT) {
-                    printColumn(rowData.getAfterColumnsList());
+                    printColumn(sb, rowData.getAfterColumnsList());
                 } else {
-                    log.info("-------> before");
-                    printColumn(rowData.getBeforeColumnsList());
-                    log.info("-------> after");
-                    printColumn(rowData.getAfterColumnsList());
+                    sb.append("\n-------> before\n");
+                    printColumn(sb, rowData.getBeforeColumnsList());
+                    sb.append("-------> after\n");
+                    printColumn(sb, rowData.getAfterColumnsList());
                 }
-
+                log.info(sb.toString());
                 //保存到es
                 Pair<String, String> appGroupPair = dbAppMap.get(databaseName);
                 if (appGroupPair == null) {
@@ -135,9 +136,9 @@ public class CanalClientRunner implements CommandLineRunner, InitializingBean {
         }
     }
 
-    private void printColumn(List<CanalEntry.Column> columns) {
+    private void printColumn(StringBuilder sb, List<CanalEntry.Column> columns) {
         for (CanalEntry.Column column : columns) {
-            log.info(column.getName() + " : " + column.getValue() + "    modified:" + column.getUpdated());
+            sb.append(column.getName()).append(" : ").append(column.getValue()).append("      modified:").append(column.getUpdated()).append("\n");
         }
     }
 

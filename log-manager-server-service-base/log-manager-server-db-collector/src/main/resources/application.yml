@@ -13,3 +13,6 @@ log-manager:
       - database: log_manager_server_user
         app-name: log-manager-system-admin
         group: dev
+      - database: log_manager_server_alert
+        app-name: log-manager-server-alert
+        group: dev

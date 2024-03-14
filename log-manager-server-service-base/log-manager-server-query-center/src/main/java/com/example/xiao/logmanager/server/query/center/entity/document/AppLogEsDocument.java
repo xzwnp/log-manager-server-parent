@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Data
 public class AppLogEsDocument {
     private String appName;
-    private String groupName;
+    private String group;
     private LocalDateTime time;
     private String level;
     private String message;

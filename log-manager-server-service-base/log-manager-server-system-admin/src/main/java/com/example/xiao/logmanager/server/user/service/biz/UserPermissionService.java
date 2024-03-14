@@ -6,6 +6,8 @@ import com.example.xiao.logmanager.server.common.exception.BizException;
 import com.example.xiao.logmanager.server.common.exception.NoPermissionException;
 import com.example.xiao.logmanager.server.common.util.UserThreadLocalUtil;
 import com.example.xiao.logmanager.server.common.util.jwt.JwtEntity;
+import com.example.xiao.logmanager.server.user.entity.po.SysAppPo;
+import com.example.xiao.logmanager.server.user.service.data.SysAppService;
 import com.example.xiao.logmanager.server.user.service.data.SysUserAppRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserPermissionService {
     private final SysUserAppRoleService userAppRoleService;
+    private final SysAppService sysAppService;
 
     public void validateRole(RoleEnum requiredRole) {
         JwtEntity userInfo = UserThreadLocalUtil.getUserInfo();
@@ -38,5 +41,13 @@ public class UserPermissionService {
         if (!roles.contains(requiredRole.getName())) {
             throw new NoPermissionException("无权限,需要角色" + requiredRole.getName());
         }
+    }
+
+    public void validateRole(RoleEnum requiredRole, Long userId, String appName) {
+        SysAppPo app = sysAppService.getByAppName(appName);
+        if (app == null) {
+            throw new BizException(ResultCode.DATA_NOT_EXIST, "应用不存在");
+        }
+        validateRole(requiredRole, userId, app.getId());
     }
 }

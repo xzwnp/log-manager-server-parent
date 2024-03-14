@@ -12,6 +12,7 @@
     <artifactId>log-manager-server-service-base</artifactId>
     <modules>
         <module>log-manager-server-query-center</module>
+        <module>log-manager-server-alert</module>
     </modules>
 
     <properties>

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -17,6 +19,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -72,6 +75,27 @@ public class JsonUtil {
     public static <T> T fromJson(String json, Class<T> clazz) {
         try {
             return objectMapper.readValue(json, clazz);
+        } catch (JsonProcessingException e) {
+            log.error("JsonUtil fromJson error", e);
+            return null;
+        }
+    }
+
+    // 将JSON字符串转换为指定类型的对象
+    public static <T> T fromJson(byte[] json, Class<T> clazz) {
+        try {
+            return objectMapper.readValue(json, clazz);
+        } catch (IOException e) {
+            log.error("JsonUtil fromJson error", e);
+            return null;
+        }
+    }
+
+    // 将JSON字符串转换为指定类型的对象
+    public static JsonNode fromJson(String json) {
+        try {
+
+            return objectMapper.readTree(json);
         } catch (JsonProcessingException e) {
             log.error("JsonUtil toJson error", e);
             return null;

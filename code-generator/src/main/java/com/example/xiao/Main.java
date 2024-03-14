@@ -24,15 +24,15 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         String projectPath = System.getProperty("user.dir");
-        String moduleName = "log-manager-server-service-base/log-manager-server-user-center";
-        String packageName = "com.example.xiao.logmanager.server.user";
+        String moduleName = "log-manager-server-service-base/log-manager-server-alert";
+        String packageName = "com.example.xiao.logmanager.server.alert";
         String author = "xiaozhiwei";
 
-        String url = "jdbc:mysql://demo.ynu.icu:3306/log_manager_server_user?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true";
+        String url = "jdbc:mysql://localhost:3306/log_manager_server_alert?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true";
         String username = "root";
         String password = "M.asd123.ysql";
 
-        String schema = "log_manager_server_user";
+        String schema = "log_manager_server_alert";
         List<String> tables = List.of(".*");
 
 

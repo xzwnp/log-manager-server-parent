@@ -98,7 +98,7 @@ public class AppBizService {
         List<SysAppPo> appPos;
         //系统管理员能看到全部应用,非系统管理员只能看到自己管理的应用
         if (UserThreadLocalUtil.containsRole(RoleEnum.SYS_ADMIN)) {
-            appPos = sysAppService.lambdaQuery().list();
+            appPos = sysAppService.lambdaQuery().eq(SysAppPo::getEnabled, true).list();
         } else {
             List<Long> availableAppIds = null;
             availableAppIds = userAppRoleService.lambdaQuery()
@@ -109,7 +109,7 @@ public class AppBizService {
             if (availableAppIds.isEmpty()) {
                 return new HashMap<>();
             }
-            appPos = sysAppService.lambdaQuery().in(SysAppPo::getId, availableAppIds).list();
+            appPos = sysAppService.lambdaQuery().in(SysAppPo::getId, availableAppIds).eq(SysAppPo::getEnabled, true).list();
         }
         return appPos.stream().collect(Collectors.toMap(SysAppPo::getAppName, SysAppPo::getGroups,
                 (s1, s2) -> {
@@ -141,9 +141,9 @@ public class AppBizService {
             if (sysAppPo == null) {
                 sysAppPo = new SysAppPo();
                 sysAppPo.setAppName(appName);
-                sysAppPo.setGroups(groups);
                 appPos.add(sysAppPo);
             }
+            sysAppPo.setGroups(groups);
         }
         //存入数据库
         sysAppService.saveOrUpdateBatch(appPos);
@@ -224,8 +224,18 @@ public class AppBizService {
         }
         //权限校验
         permissionService.validateRole(RoleEnum.APP_ADMIN, UserThreadLocalUtil.getUserId(), app.getId());
-
         app.setDescription(req.getDescription());
+        sysAppService.updateById(app);
+    }
+
+    public void enableApp(String appName, Boolean enabled) {
+        SysAppPo app = sysAppService.getByAppName(appName);
+        if (app == null) {
+            throw new BizException(ResultCode.DATA_NOT_EXIST, "应用不存在!");
+        }
+        //权限校验
+        permissionService.validateRole(RoleEnum.APP_ADMIN, UserThreadLocalUtil.getUserId(), app.getId());
+        app.setEnabled(enabled);
         sysAppService.updateById(app);
     }
 }

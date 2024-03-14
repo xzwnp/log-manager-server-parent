@@ -114,8 +114,7 @@ public class AppLogEsDao {
             List<AppLogEsDocument> logs = searchResponse.hits().hits().stream().map(Hit::source).toList();
             page.setRecords(logs);
             log.info("总记录数: {}", total);
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             log.error("AppLogEsDao search fail", e);
             throw new RuntimeException(e);
         }

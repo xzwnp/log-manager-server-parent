@@ -15,6 +15,7 @@ public class QueryAppResp {
     private Long id;
     private String appName;
     private String description;
+    private Boolean enabled;
     private Set<String> groups;
     private Set<String> admins;
     private Set<String> users;

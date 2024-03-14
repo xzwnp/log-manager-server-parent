@@ -11,6 +11,8 @@ public class UpdateAppInfoReq {
     private Long id;
     @NotBlank
     private String appName;
+    @NotNull
+    private Boolean enabled;
     @NotBlank
     private String description;
 }

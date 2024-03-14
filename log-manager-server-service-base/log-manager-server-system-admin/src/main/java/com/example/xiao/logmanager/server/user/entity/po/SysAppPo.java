@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +18,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xiaozhiwei
@@ -26,7 +27,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName(value = "sys_app",autoResultMap = true)
+@TableName(value = "sys_app", autoResultMap = true)
 public class SysAppPo {
 
     /**
@@ -49,7 +50,7 @@ public class SysAppPo {
     /**
      * 应用分组
      */
-    @TableField(value = "`groups`",typeHandler = JacksonTypeHandler.class)
+    @TableField(value = "`groups`", typeHandler = JacksonTypeHandler.class)
     private Set<String> groups;
 
     /**
@@ -75,6 +76,11 @@ public class SysAppPo {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updaterId;
+
+    /**
+     * 是否启用
+     */
+    private Boolean enabled;
 
     /**
      * 是否删除(0:否 1:是)

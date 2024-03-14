@@ -80,6 +80,14 @@ public class AppAdminController {
         return R.success();
     }
 
+    @PostMapping("enable")
+    @LogRecord(operate = "修改应用启用状态", content = "#enabled?'启用应用':'禁用应用'+#appName")
+    public R<Void> enableApp(@RequestParam String appName, @RequestParam Boolean enabled) {
+        appBizService.enableApp(appName,enabled);
+        return R.success();
+    }
+
+
     @PostMapping("modifyAppInfo")
     @LogRecord(operate = "修改应用基本信息")
     public R<Void> modifyAppInfo(@RequestBody @Validated UpdateAppInfoReq req) {
