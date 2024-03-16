@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.xiao.logmanager.server.alert.dao.AlertHistoryDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.xiao.logmanager.server.alert.entity.po.AlertHistoryPo">
+        <id column="id" property="id" />
+        <result column="app_name" property="appName" />
+        <result column="app_group" property="appGroup" />
+        <result column="rule_name" property="ruleName" />
+        <result column="level" property="level" />
+        <result column="rule_description" property="ruleDescription" />
+        <result column="match_condition" property="matchCondition" />
+        <result column="alert_description" property="alertDescription" />
+        <result column="alert_receiver" property="alertReceiver" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="creator_id" property="creatorId" />
+        <result column="updater_id" property="updaterId" />
+        <result column="delete_flag" property="deleteFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, app_name, app_group, rule_name, `level`, rule_description, match_condition, alert_description, alert_receiver, created_time, updated_time, creator_id, updater_id, delete_flag
+    </sql>
+
+</mapper>

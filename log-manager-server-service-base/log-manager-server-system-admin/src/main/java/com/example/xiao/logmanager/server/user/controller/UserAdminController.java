@@ -31,20 +31,20 @@ public class UserAdminController {
 
     @PostMapping("login")
     @LogRecord(operate = "登录")
-    public R<UserLoginResp> login(@RequestBody UserLoginReq req) {
+    public R<UserLoginResp> login(@RequestBody @Validated UserLoginReq req) {
         return R.success(userBizService.login(req));
     }
 
     @PostMapping("refreshToken")
     @LogRecord(operate = "刷新token")
-    public R<RefreshTokenResp> refreshToken(@RequestBody RefreshTokenReq req) {
+    public R<RefreshTokenResp> refreshToken(@RequestBody @Validated RefreshTokenReq req) {
         return R.success(userBizService.refreshToken(req));
     }
 
 
     @PostMapping("query")
     @LogRecord(operate = "查询用户")
-    public R<PageDto<UserInfoResp>> queryUser(@RequestBody QueryUserReq req) {
+    public R<PageDto<UserInfoResp>> queryUser(@RequestBody @Validated QueryUserReq req) {
         permissionService.validateRole(RoleEnum.SYS_ADMIN);
 
         PageDto<UserInfoResp> resp = userBizService.queryUser(req);
@@ -54,11 +54,18 @@ public class UserAdminController {
 
     @PostMapping("add")
     @LogRecord(operate = "添加用户")
-    public R<AddUserResp> addUser(@RequestBody AddUserReq req) {
+    public R<AddUserResp> addUser(@RequestBody @Validated AddUserReq req) {
         permissionService.validateRole(RoleEnum.SYS_ADMIN);
 
         AddUserResp resp = userBizService.addUser(req);
         return R.success(resp);
+    }
+
+    @PostMapping("profile/edit")
+    @LogRecord(operate = "编辑用户个人信息")
+    public R<Void> editUserProfile(@RequestBody @Validated EditUserProfileReq req) {
+        userBizService.editUserProfile(req);
+        return R.success();
     }
 
     @PostMapping("modifySysAdminRole")
@@ -80,7 +87,7 @@ public class UserAdminController {
 
     @PostMapping("changePassword")
     @LogRecord(operate = "修改密码")
-    public R<Void> changePassword(@RequestBody ChangePasswordReq req) {
+    public R<Void> changePassword(@RequestBody @Validated ChangePasswordReq req) {
         userBizService.changePassword(req);
         return R.success();
     }

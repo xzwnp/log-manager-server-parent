@@ -9,5 +9,6 @@ import java.util.List;
 public class AddUserReq {
     public final static String defaultPassword = "admin123";
     private String username;
+    private String nickname;
     private List<RoleEnum> roles;
 }

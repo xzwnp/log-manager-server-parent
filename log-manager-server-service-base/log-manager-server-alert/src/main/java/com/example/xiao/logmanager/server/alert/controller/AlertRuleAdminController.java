@@ -49,8 +49,8 @@ public class AlertRuleAdminController {
 
     @PostMapping("query")
     public R<PageDto<QueryAlertRuleResp>> queryAlertRule(@RequestBody @Validated QueryAlertRuleReq req) {
+        permissionBizService.validPermission(RoleEnum.APP_USER, req.getAppName());
         PageDto<QueryAlertRuleResp> resp = new PageDto<>(req);
-
         Page<AlertRulePo> page = new Page<>(req.getCurrent(), req.getSize());
         alertRuleService.lambdaQuery()
                 .eq(AlertRulePo::getAppName, req.getAppName())
@@ -88,10 +88,13 @@ public class AlertRuleAdminController {
         //权限验证
         permissionBizService.validPermission(RoleEnum.APP_ADMIN, alertRulePo.getAppName());
         //
-        alertRulePo = alertRuleConverter.editReq2Po(req);
-        alertRuleService.updateById(alertRulePo);
+        AlertRulePo updatePo = alertRuleConverter.editReq2Po(req);
+        alertRuleService.updateById(updatePo);
+
         //刷新缓存
-        alertRuleFactory.refreshRule(alertRulePo);
+        updatePo.setAppName(alertRulePo.getAppName());
+        updatePo.setAppGroup(alertRulePo.getAppGroup());
+        alertRuleFactory.refreshRule(updatePo);
         return R.success();
     }
 
@@ -107,6 +110,29 @@ public class AlertRuleAdminController {
         alertRuleService.removeById(alertRuleId);
         //刷新缓存
         alertRuleFactory.refreshRules();
+        return R.success();
+    }
+
+    /**
+     * 告警启用/禁用
+     *
+     * @param alertRuleId
+     * @param enabled     是否启用
+     * @return
+     */
+    @PostMapping("enable")
+    @Transactional
+    public R<Void> enableAlertRule(Long alertRuleId, boolean enabled) {
+        AlertRulePo alertRulePo = alertRuleService.getById(alertRuleId);
+        if (alertRulePo == null) {
+            throw new BizException(ResultCode.DATA_NOT_EXIST, "告警规则不存在!");
+        }
+        //权限验证
+        permissionBizService.validPermission(RoleEnum.APP_ADMIN, alertRulePo.getAppName());
+        alertRulePo.setEnabled(enabled);
+        alertRuleService.updateById(alertRulePo);
+        //刷新缓存
+        alertRuleFactory.refreshRule(alertRulePo);
         return R.success();
     }
 

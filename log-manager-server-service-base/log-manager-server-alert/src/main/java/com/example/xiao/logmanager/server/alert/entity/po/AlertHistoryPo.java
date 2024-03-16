@@ -1,4 +1,4 @@
-package com.example.xiao.logmanager.server.user.entity.po;
+package com.example.xiao.logmanager.server.alert.entity.po;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -9,23 +9,24 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDateTime;
 
+import com.example.xiao.logmanager.server.alert.enums.AlertLevelEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 系统用户信息表
+ *
  * </p>
  *
  * @author xiaozhiwei
- * @since 2024-02-24
+ * @since 2024-03-14
  */
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_user")
-public class SysUserPo {
+@TableName("alert_history")
+public class AlertHistoryPo {
 
     /**
      * 主键
@@ -34,35 +35,45 @@ public class SysUserPo {
     private Long id;
 
     /**
-     * 用户名
+     * 所属应用名称
      */
-    private String username;
+    private String appName;
 
     /**
-     * 密码Base64
+     * 所属应用分组
      */
-    @TableField("`password`")
-    private String password;
+    private String appGroup;
 
     /**
-     * 昵称
+     * 规则名称
      */
-    private String nickname;
+    private Long ruleId;
 
     /**
-     * 头像url
+     * 规则名称
      */
-    private String avatarUrl;
+    private String ruleName;
 
     /**
-     * 手机号
+     * 告警级别
      */
-    private String phone;
+    @TableField("`level`")
+    private AlertLevelEnum level;
 
     /**
-     * 邮箱
+     * 规则描述
      */
-    private String email;
+    private String ruleDescription;
+
+    /**
+     * 告警信息描述
+     */
+    private String alertDescription;
+
+    /**
+     * 告警接收人
+     */
+    private String alertReceiver;
 
     /**
      * 创建时间

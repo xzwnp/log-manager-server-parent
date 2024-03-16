@@ -52,6 +52,9 @@ public class AlertRuleFactory implements InitializingBean {
 
 
     public void refreshRule(@NonNull AlertRulePo rule) {
+        //规则预处理
+        rule.setAlertConditionObj(getAlertConditionObj(rule.getStatisticType(), rule.getAlertCondition()));
+
         String key = KeyUtil.generateAppGroupKey(rule.getAppName(), rule.getAppGroup());
         List<AlertRulePo> rules = alertRuleMap.computeIfAbsent(key, (k) -> new ArrayList<>());
         //删除旧数据

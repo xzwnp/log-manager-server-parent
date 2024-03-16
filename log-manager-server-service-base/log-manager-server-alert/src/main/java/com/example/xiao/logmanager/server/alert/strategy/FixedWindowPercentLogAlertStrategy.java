@@ -35,7 +35,7 @@ public class FixedWindowPercentLogAlertStrategy implements LogAlertStrategy {
 
     @Override
     public AlertStatisticTypeEnum getSupportedAlertType() {
-        return AlertStatisticTypeEnum.FIXED_WINDOW_COUNT;
+        return AlertStatisticTypeEnum.FIXED_WINDOW_PERCENT;
     }
 
 

@@ -2,8 +2,11 @@ package com.example.xiao.logmanager.server.alert.entity.dto;
 
 import com.example.xiao.logmanager.server.alert.enums.AlertStatisticTypeEnum;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class FixedWindowPercentAlertCondition extends AlertCondition {
     protected AlertStatisticTypeEnum type = AlertStatisticTypeEnum.FIXED_WINDOW_PERCENT;
     /**
@@ -20,4 +23,9 @@ public class FixedWindowPercentAlertCondition extends AlertCondition {
      * 分母表达式
      */
     private String denominatorExpression;
+
+    @Override
+    public String toString() {
+        return "[固定窗口百分比统计]最近%d秒内,关键字命中百分比达到%s".formatted(cycle, threshold);
+    }
 }

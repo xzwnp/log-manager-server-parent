@@ -31,7 +31,7 @@ import java.util.Set;
 @Slf4j
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
-    private static final Set<String> NO_AUTH_PATHS = Set.of("/api/sys/user/login", "/api/sys/user/refreshToken"); //请求路径白名单
+    private static final Set<String> NO_AUTH_PATHS = Set.of("/api/sys/user/login", "/api/sys/user/refreshToken", "api/sys/test/alertTest"); //请求路径白名单
 
 
     @Override

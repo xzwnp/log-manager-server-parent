@@ -75,7 +75,7 @@ public class UserBizService {
         }
         //创建用户
         String password = MD5Util.hashWithSalt(AddUserReq.defaultPassword);
-        user = new SysUserPo().setUsername(username).setNickname(username).setPassword(password);
+        user = new SysUserPo().setUsername(username).setNickname(req.getNickname()).setPassword(password);
         sysUserService.save(user);
         //创建用户-角色关系
         userAppRoleService.addRoleBatch(user.getId(), roles);
@@ -154,5 +154,18 @@ public class UserBizService {
             userAppRoleService.lambdaUpdate().eq(SysUserAppRolePo::getUserId, user.getId())
                     .eq(SysUserAppRolePo::getRoleId, RoleEnum.SYS_ADMIN.getCode()).remove();
         }
+    }
+
+    public void editUserProfile(EditUserProfileReq req) {
+        Long userId = UserThreadLocalUtil.getUserId();
+        SysUserPo user = sysUserService.getById(userId);
+        if (user == null) {
+            throw new BizException(ResultCode.DATA_NOT_EXIST, "用户不存在!");
+        }
+        user
+            .setNickname(req.getNickname())
+            .setPhone(req.getPhone())
+            .setEmail(req.getEmail());
+        sysUserService.updateById(user);
     }
 }
