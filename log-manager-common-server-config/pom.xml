@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.example.xiao</groupId>
-            <artifactId>log-manager-common</artifactId>
+            <artifactId>log-manager-common-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -33,12 +33,23 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-<!--            <optional>true</optional>-->
+            <!--            <optional>true</optional>-->
         </dependency>
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-<!--            <optional>true</optional>-->
+            <!--            <optional>true</optional>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!--  目的是引入注解      -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
         </dependency>
     </dependencies>
 </project>

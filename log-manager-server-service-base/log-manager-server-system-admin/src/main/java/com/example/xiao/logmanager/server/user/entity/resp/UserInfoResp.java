@@ -15,7 +15,6 @@ public class UserInfoResp {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -37,4 +36,14 @@ public class UserInfoResp {
      * 角色
      */
     private List<String> roles;
+
+    /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 }

@@ -13,6 +13,8 @@
     <modules>
         <module>log-manager-server-query-center</module>
         <module>log-manager-server-alert</module>
+        <module>log-manager-server-statistic</module>
+        <module>log-manager-server-messaging</module>
     </modules>
 
     <properties>

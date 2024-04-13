@@ -1,11 +1,12 @@
 package com.example.xiao.logmanager.server.collect.component;
 
-import io.jsonwebtoken.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 @Aspect

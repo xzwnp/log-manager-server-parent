@@ -59,6 +59,7 @@ public class AppAdminController {
     }
 
     @PostMapping("delete")
+    @LogRecord(operate = "删除应用", content = "'删除应用'+#appName")
     public R<Void> deleteApp(@NotBlank String appName) {
         permissionService.validateRole(RoleEnum.SYS_ADMIN);
         appBizService.deleteApp(appName);
@@ -66,7 +67,7 @@ public class AppAdminController {
     }
 
     @PostMapping("modifyAppAdmin")
-    @LogRecord(operate = "修改应用管理员", content = "#isAdd?('将'+#username+'设置为应用管理员'):('取消'+#username +'的应用管理员')")
+    @LogRecord(operate = "修改应用管理员", content = "#isAdd?('将 '+#username+' 设置为 '+#appName+' 应用管理员'):('取消 '+#username +' 的 '+#appName+' 应用管理员')")
     public R<Void> modifyAppAdmin(@NotBlank String username, @NotBlank String appName, @NotNull Boolean isAdd) {
         permissionService.validateRole(RoleEnum.SYS_ADMIN);
         appBizService.modifyAppUser(username, appName, RoleEnum.APP_ADMIN, isAdd);
@@ -74,7 +75,7 @@ public class AppAdminController {
     }
 
     @PostMapping("modifyAppUser")
-    @LogRecord(operate = "修改应用成员", content = "#isAdd?('将'+#username+'添加为应用成员'):('取消'+#username +'的应用成员')")
+    @LogRecord(operate = "修改应用成员", content = "#isAdd?('将'+#username+'添加为'+#appName+'的应用成员'):('取消'+#username +'的'+#appName+'应用成员')")
     public R<Void> modifyAppUser(@NotBlank String username, @NotBlank String appName, @NotNull Boolean isAdd) {
         appBizService.modifyAppUser(username, appName, RoleEnum.APP_USER, isAdd);
         return R.success();
@@ -83,7 +84,7 @@ public class AppAdminController {
     @PostMapping("enable")
     @LogRecord(operate = "修改应用启用状态", content = "#enabled?'启用应用':'禁用应用'+#appName")
     public R<Void> enableApp(@RequestParam String appName, @RequestParam Boolean enabled) {
-        appBizService.enableApp(appName,enabled);
+        appBizService.enableApp(appName, enabled);
         return R.success();
     }
 

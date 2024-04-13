@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.example.xiao.logmanager.api.enums.NotificationTypeEnum;
 import com.example.xiao.logmanager.server.alert.entity.dto.AlertCondition;
 import com.example.xiao.logmanager.server.alert.enums.AlertLevelEnum;
 import com.example.xiao.logmanager.server.alert.enums.AlertStatisticTypeEnum;
@@ -29,7 +30,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("alert_rule")
+@TableName(value = "alert_rule", autoResultMap = true)
 public class AlertRulePo {
 
     /**
@@ -97,6 +98,13 @@ public class AlertRulePo {
      * 告警接收人
      */
     private String alertReceiver;
+
+    /**
+     * 通知方式
+     */
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<Integer> notificationTypes;
+
     /**
      * 静默恢复时间
      */

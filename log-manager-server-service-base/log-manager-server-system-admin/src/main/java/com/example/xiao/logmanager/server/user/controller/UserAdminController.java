@@ -47,7 +47,7 @@ public class UserAdminController {
     public R<PageDto<UserInfoResp>> queryUser(@RequestBody @Validated QueryUserReq req) {
         permissionService.validateRole(RoleEnum.SYS_ADMIN);
 
-        PageDto<UserInfoResp> resp = userBizService.queryUser(req);
+        PageDto<UserInfoResp> resp = userBizService.queryUserAndRoles(req);
         return R.success(resp);
     }
 

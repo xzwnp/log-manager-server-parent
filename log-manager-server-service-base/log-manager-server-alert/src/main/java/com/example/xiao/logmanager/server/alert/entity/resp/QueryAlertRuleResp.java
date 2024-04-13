@@ -54,6 +54,8 @@ public class QueryAlertRuleResp {
      */
     private String alertReceiver;
 
+    private List<Integer> notificationTypes;
+
     private LocalDateTime createdTime;
 
     private LocalDateTime updatedTime;

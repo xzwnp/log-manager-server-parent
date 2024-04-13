@@ -39,3 +39,6 @@ log-record:
 logging:
   level:
     com.example.xiao.logmanager.api.feign: debug
+alibaba:
+  qwen:
+    api-key: sk-ab924789146e48619ee5f5755cbdf90b

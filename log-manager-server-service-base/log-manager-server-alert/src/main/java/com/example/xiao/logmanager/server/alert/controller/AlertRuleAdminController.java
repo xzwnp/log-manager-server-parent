@@ -1,6 +1,7 @@
 package com.example.xiao.logmanager.server.alert.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.xiao.log.annotation.LogRecord;
 import com.example.xiao.logmanager.server.alert.entity.coverter.AlertRuleConverter;
 import com.example.xiao.logmanager.server.alert.entity.po.AlertRulePo;
 import com.example.xiao.logmanager.server.alert.entity.req.AddAlertRuleReq;
@@ -68,6 +69,7 @@ public class AlertRuleAdminController {
     }
 
     @PostMapping("add")
+    @LogRecord(operate = "新增报警规则")
     public R<Void> addAlertRule(@RequestBody @Validated AddAlertRuleReq req) {
         //权限验证
         permissionBizService.validPermission(RoleEnum.APP_ADMIN, req.getAppName());
@@ -80,6 +82,7 @@ public class AlertRuleAdminController {
 
     @PostMapping("edit")
     @Transactional
+    @LogRecord(operate = "修改报警规则")
     public R<Void> addAlertRule(@RequestBody @Validated EditAlertRuleReq req) {
         AlertRulePo alertRulePo = alertRuleService.getById(req.getId());
         if (alertRulePo == null) {
@@ -100,6 +103,7 @@ public class AlertRuleAdminController {
 
     @PostMapping("delete")
     @Transactional
+    @LogRecord(operate = "删除报警规则")
     public R<Void> deleteAlertRule(Long alertRuleId) {
         AlertRulePo alertRulePo = alertRuleService.getById(alertRuleId);
         if (alertRulePo == null) {
@@ -122,6 +126,7 @@ public class AlertRuleAdminController {
      */
     @PostMapping("enable")
     @Transactional
+    @LogRecord(operate = "启用/禁用报警规则", content = "(#enabled?'启用':'禁用')+'了id为'+#alertRuleId+'的报警规则'")
     public R<Void> enableAlertRule(Long alertRuleId, boolean enabled) {
         AlertRulePo alertRulePo = alertRuleService.getById(alertRuleId);
         if (alertRulePo == null) {
@@ -145,6 +150,7 @@ public class AlertRuleAdminController {
      */
     @PostMapping("mute")
     @Transactional
+    @LogRecord(operate = "静默报警规则", content = "'id为'+#alertRuleId+'的报警规则被静默'+#duration+'秒'")
     public R<Void> muteAlertRule(Long alertRuleId, long duration) {
         AlertRulePo alertRulePo = alertRuleService.getById(alertRuleId);
         if (alertRulePo == null) {

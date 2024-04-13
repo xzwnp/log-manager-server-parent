@@ -1,5 +1,6 @@
 package com.example.xiao.logmanager.server.alert.entity.req;
 
+import com.example.xiao.logmanager.api.enums.NotificationTypeEnum;
 import com.example.xiao.logmanager.server.alert.enums.AlertLevelEnum;
 import com.example.xiao.logmanager.server.alert.enums.AlertStatisticTypeEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,5 +57,10 @@ public class EditAlertRuleReq {
      * 告警接收人
      */
     private String alertReceiver;
+
+    /**
+     * 通知方式
+     */
+    private List<Integer> notificationTypes;
 
 }

@@ -118,4 +118,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return R.error(ResultCode.PARAM_ERROR, ex.getMessage());
     }
 
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        logger.error("Parse Request fail", ex);
+        return super.handleExceptionInternal(ex, body, headers, statusCode, request);
+    }
 }

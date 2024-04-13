@@ -9,7 +9,7 @@
     </parent>
     <packaging>pom</packaging>
     <modules>
-        <module>log-manager-common</module>
+        <module>log-manager-common-utils</module>
         <module>log-manager-server-service-base</module>
         <module>log-manager-server-gateway</module>
         <module>log-manager-server-service-base/log-manager-server-system-admin</module>
@@ -39,6 +39,7 @@
         <log-record.version>2.0.1-SNAPSHOT</log-record.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <caffeine.version>3.0.5</caffeine.version>
+        <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -72,6 +73,12 @@
                 <artifactId>log-record-spring-boot-starter</artifactId>
                 <version>${log-record.version}</version>
             </dependency>
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback-encoder.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.mapstruct</groupId>

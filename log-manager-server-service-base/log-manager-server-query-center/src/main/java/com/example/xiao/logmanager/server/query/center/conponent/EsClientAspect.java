@@ -1,12 +1,14 @@
 package com.example.xiao.logmanager.server.query.center.conponent;
 
-import io.jsonwebtoken.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 @Component
 @Aspect
@@ -23,7 +25,7 @@ public class EsClientAspect {
                 return result;
             } catch (IOException e) {
                 //连接超时,执行重试,其他异常不重试直接抛
-                if (e.getMessage() != null && (e.getMessage().contains("Connection reset") || e.getMessage().contains("timeout"))) {
+                if (e instanceof SocketTimeoutException) {
                     log.error("ESClient Connection Timeout", e);
                     continue;
                 }

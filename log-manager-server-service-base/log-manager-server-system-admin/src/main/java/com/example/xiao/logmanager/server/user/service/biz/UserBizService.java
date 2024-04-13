@@ -1,6 +1,7 @@
 package com.example.xiao.logmanager.server.user.service.biz;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.xiao.logmanager.api.resp.UserInfoRpcResp;
 import com.example.xiao.logmanager.server.common.entity.resp.PageDto;
 import com.example.xiao.logmanager.server.common.enums.ResultCode;
 import com.example.xiao.logmanager.server.common.enums.RoleEnum;
@@ -10,6 +11,7 @@ import com.example.xiao.logmanager.server.common.util.UserThreadLocalUtil;
 import com.example.xiao.logmanager.server.common.util.jwt.JwtEntity;
 import com.example.xiao.logmanager.server.common.util.jwt.JwtUtil;
 import com.example.xiao.logmanager.server.user.constant.SystemConstants;
+import com.example.xiao.logmanager.server.user.entity.coverter.SysUserConverter;
 import com.example.xiao.logmanager.server.user.entity.po.SysUserAppRolePo;
 import com.example.xiao.logmanager.server.user.entity.po.SysUserPo;
 import com.example.xiao.logmanager.server.user.entity.req.*;
@@ -37,6 +39,8 @@ public class UserBizService {
     private final SysUserService sysUserService;
 
     private final SysUserAppRoleService userAppRoleService;
+
+    private final SysUserConverter sysUserConverter;
 
     public UserLoginResp login(UserLoginReq req) {
         SysUserPo user = sysUserService.getByUsername(req.getUsername());
@@ -108,7 +112,7 @@ public class UserBizService {
         sysUserService.updateById(user);
     }
 
-    public PageDto<UserInfoResp> queryUser(QueryUserReq req) {
+    public PageDto<UserInfoResp> queryUserAndRoles(QueryUserReq req) {
         PageDto<UserInfoResp> pageResp = new PageDto<>(req.getCurrent(), req.getSize());
         //page query users
         Page<SysUserPo> userPage = sysUserService.lambdaQuery()
@@ -163,9 +167,16 @@ public class UserBizService {
             throw new BizException(ResultCode.DATA_NOT_EXIST, "用户不存在!");
         }
         user
-            .setNickname(req.getNickname())
-            .setPhone(req.getPhone())
-            .setEmail(req.getEmail());
+                .setNickname(req.getNickname())
+                .setPhone(req.getPhone())
+                .setEmail(req.getEmail());
         sysUserService.updateById(user);
+    }
+
+    public List<UserInfoRpcResp> queryUserInfoBatch(List<String> usernameList) {
+        List<SysUserPo> sysUserPo = sysUserService.lambdaQuery()
+                .in(SysUserPo::getUsername, usernameList)
+                .list();
+        return sysUserConverter.po2RpcResp(sysUserPo);
     }
 }

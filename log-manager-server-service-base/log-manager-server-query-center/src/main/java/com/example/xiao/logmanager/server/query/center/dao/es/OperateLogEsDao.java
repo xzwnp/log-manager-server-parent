@@ -62,7 +62,7 @@ public class OperateLogEsDao {
             }
             //根据traceId进行查找
             if (StringUtils.isNotBlank(condition.getTraceId())) {
-                b.filter(f -> f.term(t -> t.field("trace_id.keyword").value(condition.getTraceId())));
+                b.filter(f -> f.term(t -> t.field("trace_id").value(condition.getTraceId())));
             }
             return b;
         };

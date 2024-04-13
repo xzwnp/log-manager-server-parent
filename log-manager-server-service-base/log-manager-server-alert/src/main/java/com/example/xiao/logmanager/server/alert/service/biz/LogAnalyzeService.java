@@ -1,5 +1,8 @@
 package com.example.xiao.logmanager.server.alert.service.biz;
 
+import com.example.xiao.logmanager.api.enums.NotificationTypeEnum;
+import com.example.xiao.logmanager.api.feign.MessagingFeignClient;
+import com.example.xiao.logmanager.api.req.SendMessageRequest;
 import com.example.xiao.logmanager.server.alert.entity.es.AppLogEsDocument;
 import com.example.xiao.logmanager.server.alert.entity.po.AlertHistoryPo;
 import com.example.xiao.logmanager.server.alert.entity.po.AlertRulePo;
@@ -13,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 分析日志是否存在异常,是否需要触发告警
@@ -25,6 +30,7 @@ public class LogAnalyzeService {
     private final AlertRuleFactory alertRuleFactory;
     private final LogAlertStrategyFactory logAlertStrategyFactory;
     private final AlertHistoryService alertHistoryService;
+    private final MessagingFeignClient messagingFeignClient;
 
     public void analyze(AppLogEsDocument appLog) {
         List<AlertRulePo> rules = alertRuleFactory.getAlertRules(appLog.getAppName(), appLog.getGroup());
@@ -56,7 +62,7 @@ public class LogAnalyzeService {
     }
 
     private AlertHistoryPo saveAlertHistory(AppLogEsDocument appLog, AlertRulePo rule) {
-        String alertDescription = "满足匹配条件[%s],统计条件[%s],最后匹配关键词".formatted(rule.getMatchCondition(), rule.getAlertCondition());
+        String alertDescription = "满足匹配关键字[%s],统计条件[%s]".formatted(rule.getMatchCondition(), rule.getAlertConditionObj());
         AlertHistoryPo alertHistoryPo = new AlertHistoryPo()
                 .setAppName(rule.getAppName())
                 .setAppGroup(rule.getAppGroup())
@@ -71,7 +77,16 @@ public class LogAnalyzeService {
     }
 
     private void sendAlert(AlertHistoryPo alertHistory, AppLogEsDocument appLog, AlertRulePo rule) {
-
+        try {
+            List<String> alertReceivers = Arrays.stream(rule.getAlertReceiver().split(",")).toList();
+            String title = "日志中心告警-%s-%s-%s".formatted(rule.getLevel().getDesc(), rule.getAppName(), rule.getAppGroup());
+            String content = "命中告警规则:%s\n告警信息:%s\n告警接收人:%s\n".formatted(alertHistory.getRuleDescription(), alertHistory.getAlertDescription(), rule.getAlertReceiver());
+            List<NotificationTypeEnum> notificationTypes = rule.getNotificationTypes().stream().map(NotificationTypeEnum::of).toList();
+            SendMessageRequest request = SendMessageRequest.builder().toUsers(alertReceivers).title(title).content(content).notificationTypes(notificationTypes).build();
+            messagingFeignClient.sendMessage(request);
+        } catch (Exception e) {
+            log.error("Send Alert Message Fail", e);
+        }
     }
 
 }

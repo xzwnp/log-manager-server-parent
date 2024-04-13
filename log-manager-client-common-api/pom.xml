@@ -23,8 +23,13 @@
         </dependency>
         <dependency>
             <groupId>com.example.xiao</groupId>
-            <artifactId>log-manager-common</artifactId>
+            <artifactId>log-manager-common-utils</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>${mybatis-plus.version}</version>
         </dependency>
     </dependencies>
 </project>
