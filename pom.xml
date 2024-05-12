@@ -15,7 +15,7 @@
         <module>log-manager-server-service-base/log-manager-server-system-admin</module>
         <module>log-manager-client-common-api</module>
         <module>log-manager-common-server-config</module>
-        <module>log-manager-server-service-base/log-manager-server-db-collector</module>
+        <module>log-manager-server-service-base/log-manager-server-log-handler</module>
     </modules>
     <groupId>com.example.xiao</groupId>
     <artifactId>log-manager-server-parent</artifactId>
@@ -78,7 +78,6 @@
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback-encoder.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>org.mapstruct</groupId>

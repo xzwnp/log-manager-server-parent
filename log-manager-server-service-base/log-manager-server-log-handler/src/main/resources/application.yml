@@ -1,0 +1,20 @@
+server:
+  port: 8011
+spring:
+  application:
+    name: log-manager-db-collector
+  elasticsearch:
+    uris: http://demo.ynu.icu:9200
+    username: elastic
+    password: elastic
+log-manager:
+  db-collector:
+    host: 127.0.0.1 #canal地址
+    port: 11111  #canal端口号
+    routers: #指定数据库和应用、分组的映射关系
+      - database: log_manager_server_user
+        app-name: log-manager-system-admin
+        group: dev
+      - database: log_manager_server_alert
+        app-name: log-manager-server-alert
+        group: dev

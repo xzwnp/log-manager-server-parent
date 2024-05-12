@@ -10,9 +10,9 @@ spring:
     connection-timeout: 10s
     socket-timeout: 5s
   datasource:
-    url: jdbc:mysql://localhost:3306/log_manager_server_user?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true
+    url: jdbc:mysql://localhost:3306/log_manager_server_statistic?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true
     username: root
-    password: M.asd123.ysql
+    password: x.z.w.91
   cloud:
     nacos:
       server-addr: localhost:8848
@@ -35,7 +35,9 @@ log-record:
       host: demo.ynu.icu
       operate-log-port: 4560
       app-log-port: 4561
-
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 logging:
   level:
     com.example.xiao.logmanager.api.feign: debug

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.xiao.logmanager.server.statistic.dao.StaSystemDailyDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.xiao.logmanager.server.statistic.entity.po.StaSystemDailyPo">
+        <id column="id" property="id" />
+        <result column="statistic_date" property="statisticDate" />
+        <result column="user_num" property="userNum" />
+        <result column="app_num" property="appNum" />
+        <result column="log_num" property="logNum" />
+        <result column="warning_num" property="warningNum" />
+        <result column="app_log_num" property="appLogNum" />
+        <result column="operate_log_num" property="operateLogNum" />
+        <result column="db_log_num" property="dbLogNum" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="creator_id" property="creatorId" />
+        <result column="updater_id" property="updaterId" />
+        <result column="delete_flag" property="deleteFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, statistic_date, user_num, app_num, log_num, warning_num, app_log_num, operate_log_num, db_log_num, created_time, updated_time, creator_id, updater_id, delete_flag
+    </sql>
+
+</mapper>

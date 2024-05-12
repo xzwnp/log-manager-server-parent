@@ -14,6 +14,7 @@ import com.example.xiao.logmanager.server.user.service.biz.UserPermissionService
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @LogRecordTrace
 @Validated
+@Slf4j
 public class AppAdminController {
     private final AppBizService appBizService;
     private final UserPermissionService permissionService;

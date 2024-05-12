@@ -83,7 +83,7 @@ public class AlertRuleAdminController {
     @PostMapping("edit")
     @Transactional
     @LogRecord(operate = "修改报警规则")
-    public R<Void> addAlertRule(@RequestBody @Validated EditAlertRuleReq req) {
+    public R<Void> editAlertRule(@RequestBody @Validated EditAlertRuleReq req) {
         AlertRulePo alertRulePo = alertRuleService.getById(req.getId());
         if (alertRulePo == null) {
             throw new BizException(ResultCode.DATA_NOT_EXIST, "告警规则不存在!");

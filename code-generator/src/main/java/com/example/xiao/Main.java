@@ -24,15 +24,15 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         String projectPath = System.getProperty("user.dir");
-        String moduleName = "log-manager-server-service-base/log-manager-server-alert";
-        String packageName = "com.example.xiao.logmanager.server.alert";
+        String moduleName = "log-manager-server-service-base/log-manager-server-statistic";
+        String packageName = "com.example.xiao.logmanager.server.statistic";
         String author = "xiaozhiwei";
 
-        String url = "jdbc:mysql://localhost:3306/log_manager_server_alert?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true";
+        String url = "jdbc:mysql://localhost:3306/log_manager_server_statistic?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useServerPrepStmts=true";
         String username = "root";
-        String password = "M.asd123.ysql";
+        String password = "x.z.w.91";
 
-        String schema = "log_manager_server_alert";
+        String schema = "log_manager_server_statistic";
         List<String> tables = List.of(".*");
 
 
@@ -92,6 +92,6 @@ public class Main {
                 })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
                 .execute();
-
+		
     }
 }

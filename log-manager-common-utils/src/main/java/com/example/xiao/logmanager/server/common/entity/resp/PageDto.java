@@ -20,12 +20,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageDto<T> {
-    protected Long total;
-    protected Long current;
-    protected Long size;
+    protected long total;
+    protected long current;
+    protected long size;
     protected List<T> records;
 
-    public PageDto(Long current, Long size) {
+    public PageDto(long current, long size) {
         this.current = current;
         this.size = size;
     }
