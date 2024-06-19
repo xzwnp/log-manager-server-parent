@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * 2024/4/20
  * 16:08
  */
-@FeignClient(value = "SystemStatisticFeignClient",url = "http://log-manager-system-admin")
+@FeignClient(value = "log-manager-system-admin2")
 @Component
 public interface SystemStatisticFeignClient {
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name="SystemAdminFeignClient",url = "http://log-manager-system-admin")
+@FeignClient("log-manager-system-admin")
 @Component
 public interface SystemAdminFeignClient {
 	/**
